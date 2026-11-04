@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "Vietnam PIT Helper",
-    "version": "17.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Human Resources/Payroll",
     "summary": "Monthly payroll and personal income tax (PIT) for Vietnam, "
     "following the 2026 tax law (5-bracket progressive table).",
@@ -35,7 +35,7 @@ Features
 
 Compatibility
 -------------
-* Odoo 17 Community (no Enterprise dependency).
+* Odoo 20 Community (no Enterprise dependency).
 * Depends on the standard ``hr`` (Employees) and ``account``
   (Accounting) apps only.
 
@@ -70,7 +70,7 @@ nhân viên theo luật hiện hành của kỳ tính thuế 2026
 * Lương net, bảng lương theo từng nhân viên từng tháng, báo cáo
   bảng lương + thuế TNCN hàng tháng xuất được ra PDF.
 
-Tương thích: Odoo 17 Community (không cần Enterprise).
+Tương thích: Odoo 20 Community (không cần Enterprise).
 Chưa có trong v1: quyết toán năm, khai báo điện tử, tích hợp eTax.
 Hỗ trợ: leanhpham2611@gmail.com — sửa lỗi trong 30 ngày đầu.
 Giá: 19,00 EUR (một lần, cho một database).
@@ -87,7 +87,7 @@ Giá: 19,00 EUR (một lần, cho một database).
     "currency": "EUR",
     "depends": ["hr", "account"],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/pit_payroll_views.xml",
         "reports/pit_payroll_report.xml",
     ],

@@ -1,4 +1,4 @@
-# Vietnam PIT Helper — Odoo 17 Community
+# Vietnam PIT Helper — Odoo 20 Community
 
 Monthly payroll and Vietnamese personal income tax (PIT) for one
 employee per month, computed under the law in force for **tax year
@@ -30,7 +30,7 @@ Features:
   (`account.group_account_user` read-only /
   `account.group_account_manager`). Other users cannot see the model
   at all.
-- **No Enterprise dependency** — Odoo 17 Community only; depends on
+- **No Enterprise dependency** — Odoo 20 Community only; depends on
   the standard `hr` and `account` apps.
 
 ## Law change note (important)
@@ -92,6 +92,50 @@ purchase.
 - `security/ir.model.access.csv` — HR / Accounting access rules.
 - `tests/test_pit_compute.py` — standalone test (plain `python3`,
   no Odoo needed); see `TEST-RESULTS.md`.
+
+## Differences vs Odoo 17
+
+This is the **Odoo 20** build of the same module. The tax logic
+(`models/pit_tax.py`) is byte-identical to the Odoo 17 version;
+only the framework-facing parts changed:
+
+- **List view renamed**: `<tree>` → `<list>`, and the action's
+  `view_mode` `tree,form` → `list,form` (same as the Odoo 18/19
+  builds). Source: Odoo's migrator script
+  `odoo/upgrade_code/17.5-01-tree-to-list.py`.
+- **SQL constraint rewritten**: `_sql_constraints` →
+  `_unique_employee_period = models.Constraint(...)` (same as the
+  Odoo 19 build — the old attribute is ignored in 20 too).
+  Source: `odoo/orm/model_classes.py`, migrator script
+  `odoo/upgrade_code/18.1-00-sql-constraint.py`.
+- **`report_file` removed from `ir.actions.report`**: Odoo 20
+  dropped the `report_file` field (`odoo/addons/base/models/
+  ir_actions_report.py` has no such field; it still exists in
+  18/19). The field was a redundant duplicate of `report_name`
+  in this module, so the line was simply deleted — the report
+  action keeps `report_name` + `print_report_name`.
+- **Search view Group By simplified**: the `<group expand="0"
+  string="Group By">` wrapper is now a bare `<group>` (same as
+  the Odoo 19 build — Odoo 20 also dropped the `expand` and
+  `string` attributes from the `group` element).
+- **Access rights moved to the new model**: `security/ir.model.access.csv`
+  is replaced by `security/ir.access.csv`. Odoo 20 removed the
+  `ir.model.access` model (and merged record rules into it); access
+  is now `ir.access` records with a single `operation` column
+  holding a subset of `crud` (`crud` = all, `cru` = no delete,
+  `r` = read-only). The four rows carry the exact same rights as
+  the Odoo 17 CSV. Source: migrator script
+  `odoo/upgrade_code/19.4-00-ir-access.py` and
+  `odoo/addons/base/models/ir_access.py`.
+- **Manifest version**: `20.0.1.0.0`. Price stays €19.00 EUR.
+- **Python / database**: Odoo 20 requires Python ≥ 3.12
+  (`MIN_PY_VERSION = (3, 12)` in `odoo/release.py`) and
+  PostgreSQL 16+.
+
+Everything else — QWeb report, `hr`/`account` dependencies,
+group ids (`hr.group_hr_user`, `account.group_account_manager`,
+…) — is unchanged from the Odoo 17 version and was verified
+against the Odoo 20.0 source.
 
 ## License
 

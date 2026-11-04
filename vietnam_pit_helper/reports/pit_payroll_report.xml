@@ -120,7 +120,6 @@
         <field name="model">pit.payroll.line</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">vietnam_pit_helper.report_pit_payroll</field>
-        <field name="report_file">vietnam_pit_helper.report_pit_payroll</field>
         <field name="print_report_name">
             'Payroll-PIT-' + (object.name or 'line').replace(' ', '_').replace('/', '-')
         </field>

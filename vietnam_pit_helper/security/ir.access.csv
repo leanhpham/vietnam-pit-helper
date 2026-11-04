@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_pit_payroll_line_hr_manager,PIT Payroll Line (HR Manager),pit.payroll.line,hr.group_hr_manager,crud,
+access_pit_payroll_line_hr_user,PIT Payroll Line (HR User),pit.payroll.line,hr.group_hr_user,cru,
+access_pit_payroll_line_account_manager,PIT Payroll Line (Accounting Manager),pit.payroll.line,account.group_account_manager,cru,
+access_pit_payroll_line_account_user,PIT Payroll Line (Accounting User),pit.payroll.line,account.group_account_user,r,

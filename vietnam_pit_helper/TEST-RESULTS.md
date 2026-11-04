@@ -1,5 +1,10 @@
 # Vietnam PIT Helper v1 — Test Results
 
+> **Odoo 20 copy.** The hand-check table and standalone-test
+> sections below are shared with the Odoo 17 base (same
+> `models/pit_tax.py`, byte-identical). Live-test sections for
+> **Odoo 20** are appended at the end of this file.
+
 Date: 2026-11-03. Environment: Python 3.12.3, Linux. No Odoo
 installed in this environment (see "Odoo install" below).
 
@@ -219,3 +224,45 @@ background, login page HTTP 200 at `http://127.0.0.1:8069`.
   list view (`views/pit_payroll_views.xml:15` — all other monetary fields
   declare `sum="..."`). One-line view fix if a total is wanted there;
   not a rendering failure, left as-is.
+
+---
+
+## Live test — Odoo 20.0 (2026-11-03, ~16:42 ICT)
+
+Environment: Odoo 20.0 source (branch 20.0, tarball), Python 3.12 venv
+(`test-env/venv312`), PostgreSQL 16, Ubuntu 24.04. Database `pit_test20`.
+Install log: `test-env/odoo20-install.log`; test log: `test-env/test-output20.log`.
+
+- **Install**: first attempt failed — `ValueError: Invalid field
+  'report_file' in 'ir.actions.report'` (ParseError in
+  `reports/pit_payroll_report.xml:118`). Odoo 20 **removed** the
+  `report_file` field from `ir.actions.report`
+  (`odoo/addons/base/models/ir_actions_report.py`; still present in
+  18/19). It was a redundant duplicate of `report_name` in this module,
+  so the line was deleted. Retry → **exit 0**, module loaded in 0.53s.
+- **Live test confirmed the search-view fix**: the bare `<group>` Group By
+  (same change as the Odoo 19 build) installs cleanly on 20.
+- **Standalone tax test**: `tests/test_pit_compute.py` → ALL CHECKS PASSED.
+- **Figure check** (same 3 fixtures): **ALL MATCH** — identical figures
+  to the Odoo 17 hand-check table.
+- **UNIQUE constraint**: present in Postgres
+  (`pit_payroll_line_unique_employee_period`) — `models.Constraint` works
+  in Odoo 20.
+- **Workflow**: confirm → done works.
+- **QWeb PDF**: rendered, `test-env/output/pit_report_C20.pdf`, 20,106
+  bytes, valid `%PDF-1.4`, 1 page.
+- **Access rules**: new `ir.access` rows = 4 with the exact operations —
+  HR Manager `crud`, HR User `cru`, Accounting Manager `cru`, Accounting
+  User `r`; access check **ALL AS EXPECTED**. The old
+  `ir.model.access` table does **not** exist in this database (verified:
+  0 tables).
+- **Persistence**: fixtures committed — fresh `psql` count shows the 3
+  fixture lines for 11/2026 with the correct net salaries (+ 1 line for
+  10/2026 created by the HR-user access check).
+- **Test-script note (not a module bug)**: Odoo 20 also uses
+  `res.users.group_ids` (renamed in 19); the live-test script picks the
+  field by version.
+
+**Verdict: LIVE-TESTED ✅ — install + figures + constraint + workflow +
+PDF + access rules all pass on Odoo 20.0 (after the `report_file` +
+search-view fixes).**
