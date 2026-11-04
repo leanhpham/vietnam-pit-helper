@@ -1,4 +1,4 @@
-# Vietnam PIT Helper — Odoo 17 Community
+# Vietnam PIT Helper — Odoo 18 Community
 
 Monthly payroll and Vietnamese personal income tax (PIT) for one
 employee per month, computed under the law in force for **tax year
@@ -30,7 +30,7 @@ Features:
   (`account.group_account_user` read-only /
   `account.group_account_manager`). Other users cannot see the model
   at all.
-- **No Enterprise dependency** — Odoo 17 Community only; depends on
+- **No Enterprise dependency** — Odoo 18 Community only; depends on
   the standard `hr` and `account` apps.
 
 ## Law change note (important)
@@ -92,6 +92,26 @@ purchase.
 - `security/ir.model.access.csv` — HR / Accounting access rules.
 - `tests/test_pit_compute.py` — standalone test (plain `python3`,
   no Odoo needed); see `TEST-RESULTS.md`.
+
+## Differences vs Odoo 17
+
+This is the **Odoo 18** build of the same module. The tax logic
+(`models/pit_tax.py`) is byte-identical to the Odoo 17 version;
+only the framework-facing parts changed:
+
+- **List view renamed**: `<tree>` → `<list>`, and the action's
+  `view_mode` `tree,form` → `list,form`. Odoo 18 renamed the list
+  view element (the old `<tree>` tag is no longer the canonical
+  form). Source: Odoo's own migrator script
+  `odoo/upgrade_code/17.5-01-tree-to-list.py` (in the Odoo 18
+  source) and the Odoo 18 release notes.
+- **Manifest version**: `18.0.1.0.0`. Price stays €19.00 EUR.
+- **Python**: Odoo 18 requires Python ≥ 3.10
+  (`MIN_PY_VERSION = (3, 10)` in `odoo/release.py`).
+
+Everything else — model, fields, access rules, QWeb report,
+`hr`/`account` dependencies, group ids — is unchanged from the
+Odoo 17 version and was verified against the Odoo 18.0 source.
 
 ## License
 

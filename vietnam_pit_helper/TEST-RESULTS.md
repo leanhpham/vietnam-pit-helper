@@ -1,5 +1,10 @@
 # Vietnam PIT Helper v1 — Test Results
 
+> **Odoo 18 copy.** The hand-check table and standalone-test
+> sections below are shared with the Odoo 17 base (same
+> `models/pit_tax.py`, byte-identical). Live-test sections for
+> **Odoo 18** are appended at the end of this file.
+
 Date: 2026-11-03. Environment: Python 3.12.3, Linux. No Odoo
 installed in this environment (see "Odoo install" below).
 
@@ -219,3 +224,37 @@ background, login page HTTP 200 at `http://127.0.0.1:8069`.
   list view (`views/pit_payroll_views.xml:15` — all other monetary fields
   declare `sum="..."`). One-line view fix if a total is wanted there;
   not a rendering failure, left as-is.
+
+---
+
+## Live test — Odoo 18.0 (2026-11-03, ~16:36 ICT)
+
+Environment: Odoo 18.0 source (branch 18.0, tarball), Python 3.11 venv
+(`test-env/venv`), PostgreSQL 16, Ubuntu 24.04. Database `pit_test18`.
+Recipe: `test-env/SETUP-LOG.md` (direct install, no Docker).
+Install log: `test-env/odoo18-install.log`; test log: `test-env/test-output18.log`.
+
+- **Install**: `odoo-bin -d pit_test18 -i base,hr,account,vietnam_pit_helper
+  --without-demo=all --stop-after-init` → **exit 0**, module loaded in
+  0.42s. (Only ERROR line is a benign docutils indentation warning from a
+  stock module description.)
+- **Standalone tax test**: `tests/test_pit_compute.py` → ALL CHECKS PASSED
+  (same as Odoo 17).
+- **Figure check** (same 3 fixture employees as the Odoo 17 hand-check
+  table, Nov 2026): **ALL MATCH** — A net 13,425,000; B net 31,652,500,
+  PIT 197,500; C net 102,780,150, PIT 21,350,850, taxable 102,431,000.
+- **UNIQUE constraint**: present in Postgres
+  (`pit_payroll_line_unique_employee_period`, `UNIQUE (employee_id, year,
+  month)`) — `_sql_constraints` still works in Odoo 18.
+- **Workflow**: confirm → done works.
+- **QWeb PDF**: rendered, `test-env/output/pit_report_C18.pdf`, 20,106
+  bytes, valid `%PDF-1.4`, 1 page.
+- **Access rules**: `ir.model.access` rows = 4; access check
+  **ALL AS EXPECTED** (plain user blocked, HR User create+write, Account
+  User read-only).
+- **Persistence**: fixtures committed — fresh `psql` count shows the 3
+  fixture lines for 11/2026 with the correct net salaries (+ 1 line for
+  10/2026 created by the HR-user access check).
+
+**Verdict: LIVE-TESTED ✅ — install + figures + constraint + workflow +
+PDF + access rules all pass on Odoo 18.0.**

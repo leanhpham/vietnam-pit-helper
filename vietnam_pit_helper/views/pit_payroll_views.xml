@@ -5,7 +5,7 @@
         <field name="name">pit.payroll.line.list</field>
         <field name="model">pit.payroll.line</field>
         <field name="arch" type="xml">
-            <tree string="Payroll Lines" multi_edit="1">
+            <list string="Payroll Lines" multi_edit="1">
                 <field name="period"/>
                 <field name="employee_id"/>
                 <field name="currency_id" column_invisible="1"/>
@@ -20,7 +20,7 @@
                        decoration-success="state == 'done'"
                        decoration-info="state == 'confirmed'"
                        decoration-muted="state == 'draft'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -113,7 +113,7 @@
     <record id="action_pit_payroll_line" model="ir.actions.act_window">
         <field name="name">Payroll &amp; PIT</field>
         <field name="res_model">pit.payroll.line</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
