@@ -16,13 +16,10 @@ class PitPayrollLine(models.Model):
     _description = "Vietnam PIT Payroll Line"
     _order = "year desc, month desc, employee_id"
 
-    _sql_constraints = [
-        (
-            "unique_employee_period",
-            "UNIQUE(employee_id, year, month)",
-            "A payroll line already exists for this employee and period.",
-        ),
-    ]
+    _unique_employee_period = models.Constraint(
+        'UNIQUE(employee_id, year, month)',
+        "A payroll line already exists for this employee and period.",
+    )
 
     # ------------------------------------------------------------------
     # Identification

@@ -1,5 +1,10 @@
 # Vietnam PIT Helper v1 — Test Results
 
+> **Odoo 19 copy.** The hand-check table and standalone-test
+> sections below are shared with the Odoo 17 base (same
+> `models/pit_tax.py`, byte-identical). Live-test sections for
+> **Odoo 19** are appended at the end of this file.
+
 Date: 2026-11-03. Environment: Python 3.12.3, Linux. No Odoo
 installed in this environment (see "Odoo install" below).
 
@@ -219,3 +224,46 @@ background, login page HTTP 200 at `http://127.0.0.1:8069`.
   list view (`views/pit_payroll_views.xml:15` — all other monetary fields
   declare `sum="..."`). One-line view fix if a total is wanted there;
   not a rendering failure, left as-is.
+
+---
+
+## Live test — Odoo 19.0 (2026-11-03, ~16:40 ICT)
+
+Environment: Odoo 19.0 source (branch 19.0, tarball), Python 3.11 venv
+(`test-env/venv`, Odoo 19 requirements installed — adds `cbor2` 5.4.6),
+PostgreSQL 16, Ubuntu 24.04. Database `pit_test19`.
+Install log: `test-env/odoo19-install.log`; test log: `test-env/test-output19.log`.
+
+- **Install**: first attempt failed — `ModuleNotFoundError: No module
+  named 'cbor2'` (new Odoo 19 dependency). Fixed by installing Odoo 19's
+  `requirements.txt` into the venv; retry →
+  **exit 0**, module loaded in 0.48s.
+- **Live test found a REAL BUG (fixed)**: the search view's
+  `<group expand="0" string="Group By">` fails Odoo 19 view validation —
+  Odoo 19 removed the `expand` and `string` attributes from the `group`
+  element (`odoo/addons/base/rng/common.rng`). Fixed to a bare `<group>`
+  (same shape as Odoo 19 core search views, e.g.
+  `account_account_views.xml`); install then succeeded.
+- **Standalone tax test**: `tests/test_pit_compute.py` → ALL CHECKS PASSED.
+- **Figure check** (same 3 fixtures): **ALL MATCH** — identical figures
+  to the Odoo 17 hand-check table.
+- **UNIQUE constraint**: present in Postgres
+  (`pit_payroll_line_unique_employee_period`) — `models.Constraint` works
+  in Odoo 19 (the old `_sql_constraints` form would only warn and never
+  apply).
+- **Workflow**: confirm → done works.
+- **QWeb PDF**: rendered, `test-env/output/pit_report_C19.pdf`, 20,106
+  bytes, valid `%PDF-1.4`, 1 page.
+- **Access rules**: `ir.model.access` rows = 4; access check
+  **ALL AS EXPECTED** (plain user blocked, HR User create+write, Account
+  User read-only).
+- **Persistence**: fixtures committed — fresh `psql` count shows the 3
+  fixture lines for 11/2026 with the correct net salaries (+ 1 line for
+  10/2026 created by the HR-user access check).
+- **Test-script note (not a module bug)**: Odoo 19 renamed
+  `res.users.groups_id` → `group_ids`; the live-test script was updated
+  to pick the field by version. The module itself does not touch
+  `res.users`.
+
+**Verdict: LIVE-TESTED ✅ — install + figures + constraint + workflow +
+PDF + access rules all pass on Odoo 19.0 (after the search-view fix).**

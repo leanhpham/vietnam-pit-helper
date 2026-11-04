@@ -1,4 +1,4 @@
-# Vietnam PIT Helper — Odoo 17 Community
+# Vietnam PIT Helper — Odoo 19 Community
 
 Monthly payroll and Vietnamese personal income tax (PIT) for one
 employee per month, computed under the law in force for **tax year
@@ -30,7 +30,7 @@ Features:
   (`account.group_account_user` read-only /
   `account.group_account_manager`). Other users cannot see the model
   at all.
-- **No Enterprise dependency** — Odoo 17 Community only; depends on
+- **No Enterprise dependency** — Odoo 19 Community only; depends on
   the standard `hr` and `account` apps.
 
 ## Law change note (important)
@@ -92,6 +92,43 @@ purchase.
 - `security/ir.model.access.csv` — HR / Accounting access rules.
 - `tests/test_pit_compute.py` — standalone test (plain `python3`,
   no Odoo needed); see `TEST-RESULTS.md`.
+
+## Differences vs Odoo 17
+
+This is the **Odoo 19** build of the same module. The tax logic
+(`models/pit_tax.py`) is byte-identical to the Odoo 17 version;
+only the framework-facing parts changed:
+
+- **List view renamed**: `<tree>` → `<list>`, and the action's
+  `view_mode` `tree,form` → `list,form` (same as the Odoo 18
+  build). Source: Odoo's migrator script
+  `odoo/upgrade_code/17.5-01-tree-to-list.py`.
+- **SQL constraint rewritten**: `_sql_constraints` →
+  `_unique_employee_period = models.Constraint('UNIQUE(employee_id,
+  year, month)', ...)`. In Odoo 19 the old `_sql_constraints`
+  attribute is only logged as a warning and is **never applied**
+  (`_add_sql_constraints()` only applies `models.Constraint`
+  table objects), so keeping it would silently lose the
+  one-line-per-employee-per-month uniqueness. Source:
+  `odoo/orm/model_classes.py` (warning) and
+  `odoo/orm/models.py` (`_add_sql_constraints`), plus the
+  migrator script `odoo/upgrade_code/18.1-00-sql-constraint.py`.
+- **Search view Group By simplified**: the `<group expand="0"
+  string="Group By">` wrapper is now a bare `<group>` — Odoo 19
+  removed the `expand` and `string` attributes from the `group`
+  element (`odoo/addons/base/rng/common.rng`); keeping them fails
+  view validation at install. Same shape as Odoo 19 core search
+  views (e.g. `account_account_views.xml`).
+- **Manifest version**: `19.0.1.0.0`. Price stays €19.00 EUR.
+- **Python**: Odoo 19.0 requires Python ≥ 3.10
+  (`MIN_PY_VERSION = (3, 10)` in `odoo/release.py`). Some guides
+  cite Python 3.12 as the minimum; that applies to the later
+  SaaS releases (19.1+), not to 19.0 on-premise.
+
+Everything else — access rules (`ir.model.access.csv`, unchanged
+in 19), QWeb report, `hr`/`account` dependencies, group ids — is
+unchanged from the Odoo 17 version and was verified against the
+Odoo 19.0 source.
 
 ## License
 
