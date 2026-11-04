@@ -75,7 +75,7 @@ old figures are kept only as comments in `models/pit_tax.py`. See
 
 ## Price
 
-**€19.00 (EUR), one-time, per database** (set in the manifest).
+**$19.00 (USD), one-time, per database** (set in the manifest).
 Odoo Apps Store takes ~20% commission. Support:
 leanhpham2611@gmail.com — bug fixes within the first 30 days after
 purchase.
@@ -119,7 +119,7 @@ only the framework-facing parts changed:
   element (`odoo/addons/base/rng/common.rng`); keeping them fails
   view validation at install. Same shape as Odoo 19 core search
   views (e.g. `account_account_views.xml`).
-- **Manifest version**: `19.0.1.0.0`. Price stays €19.00 EUR.
+- **Manifest version**: `19.0.1.0.0`. Price stays $19.00 USD.
 - **Python**: Odoo 19.0 requires Python ≥ 3.10
   (`MIN_PY_VERSION = (3, 10)` in `odoo/release.py`). Some guides
   cite Python 3.12 as the minimum; that applies to the later
