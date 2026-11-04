@@ -75,7 +75,7 @@ old figures are kept only as comments in `models/pit_tax.py`. See
 
 ## Price
 
-**€19.00 (EUR), one-time, per database** (set in the manifest).
+**$19.00 (USD), one-time, per database** (set in the manifest).
 Odoo Apps Store takes ~20% commission. Support:
 leanhpham2611@gmail.com — bug fixes within the first 30 days after
 purchase.
