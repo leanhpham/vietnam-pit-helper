@@ -49,7 +49,7 @@ Support
 Support email: leanhpham2611@gmail.com — bug fixes within the first
 30 days after purchase.
 
-Price: EUR 19.00 (one-time, per database).
+Price: USD 19.00 (one-time, per database).
 
 ========================================================================
 Vietnam PIT Helper — Bảng lương & thuế TNCN hàng tháng cho Việt Nam
@@ -73,7 +73,7 @@ nhân viên theo luật hiện hành của kỳ tính thuế 2026
 Tương thích: Odoo 18 Community (không cần Enterprise).
 Chưa có trong v1: quyết toán năm, khai báo điện tử, tích hợp eTax.
 Hỗ trợ: leanhpham2611@gmail.com — sửa lỗi trong 30 ngày đầu.
-Giá: 19,00 EUR (một lần, cho một database).
+Giá: 19,00 USD (một lần, cho một database).
 """,
     "author": "Le Anh Pham",
     "website": "https://www.facebook.com/profile.php?id=61595231866235",
@@ -84,7 +84,7 @@ Giá: 19,00 EUR (một lần, cho một database).
         "static/description/images/report_screenshot.png",
     ],
     "price": 19.00,
-    "currency": "EUR",
+    "currency": "USD",
     "depends": ["hr", "account"],
     "data": [
         "security/ir.model.access.csv",

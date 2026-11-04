@@ -75,7 +75,7 @@ old figures are kept only as comments in `models/pit_tax.py`. See
 
 ## Price
 
-**€19.00 (EUR), one-time, per database** (set in the manifest).
+**$19.00 (USD), one-time, per database** (set in the manifest).
 Odoo Apps Store takes ~20% commission. Support:
 leanhpham2611@gmail.com — bug fixes within the first 30 days after
 purchase.
@@ -105,7 +105,7 @@ only the framework-facing parts changed:
   form). Source: Odoo's own migrator script
   `odoo/upgrade_code/17.5-01-tree-to-list.py` (in the Odoo 18
   source) and the Odoo 18 release notes.
-- **Manifest version**: `18.0.1.0.0`. Price stays €19.00 EUR.
+- **Manifest version**: `18.0.1.0.0`. Price stays $19.00 USD.
 - **Python**: Odoo 18 requires Python ≥ 3.10
   (`MIN_PY_VERSION = (3, 10)` in `odoo/release.py`).
 
