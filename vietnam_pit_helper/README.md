@@ -140,4 +140,4 @@ against the Odoo 20.0 source.
 ## License
 
 Vietnam PIT Helper is licensed under the Odoo Proprietary License v1.0 (OPL-1).
-See the LICENSE file. Copyright (C) 2026 LeAnhPham.
+See the LICENSE file. Copyright (C) 2026 L.A.P.
