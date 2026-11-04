@@ -75,7 +75,7 @@ old figures are kept only as comments in `models/pit_tax.py`. See
 
 ## Price
 
-**€19.00 (EUR), one-time, per database** (set in the manifest).
+**$19.00 (USD), one-time, per database** (set in the manifest).
 Odoo Apps Store takes ~20% commission. Support:
 leanhpham2611@gmail.com — bug fixes within the first 30 days after
 purchase.
@@ -127,7 +127,7 @@ only the framework-facing parts changed:
   the Odoo 17 CSV. Source: migrator script
   `odoo/upgrade_code/19.4-00-ir-access.py` and
   `odoo/addons/base/models/ir_access.py`.
-- **Manifest version**: `20.0.1.0.0`. Price stays €19.00 EUR.
+- **Manifest version**: `20.0.1.0.0`. Price stays $19.00 USD.
 - **Python / database**: Odoo 20 requires Python ≥ 3.12
   (`MIN_PY_VERSION = (3, 12)` in `odoo/release.py`) and
   PostgreSQL 16+.
