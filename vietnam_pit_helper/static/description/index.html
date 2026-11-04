@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Vietnam PIT Helper</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;color:#212529;max-width:900px;margin:0 auto;padding:16px;line-height:1.55}
+h1{font-size:26px}h2{font-size:20px;border-bottom:2px solid #017e84;padding-bottom:4px}
+h3{font-size:16px}.tag{color:#017e84;font-weight:bold}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #ccc;padding:6px 8px;text-align:left}
+th{background:#f2f2f2}img{max-width:100%;border:1px solid #ddd;margin:8px 0}
+.note{background:#fff8e1;border-left:4px solid #f0ad4e;padding:10px}
+</style></head><body>
+<h1>Vietnam PIT Helper</h1>
+<p class="tag">Monthly payroll &amp; Vietnamese personal income tax (PIT) &mdash; Odoo 17 Community &mdash; &euro;69 one-time</p>
+<p>Enter gross salary, bonus and number of dependents for each employee and month.
+The module automatically computes compulsory insurance, family deductions,
+taxable income, PIT and net salary under the Vietnamese tax law in force for
+<strong>tax year 2026 (Law 109/2025/QH15)</strong> &mdash; the current 5-bracket
+progressive table, not the pre-2026 law.</p>
+
+<h2>What it computes (2026 law)</h2>
+<table>
+<tr><th>Step</th><th>Rule</th></tr>
+<tr><td>Insurance (employee)</td><td>BHXH 8%, BHYT 1.5%, BHTN 1% of gross salary. Caps: BHXH/BHYT base max 50,600,000 VND/month (20&times; base salary 2,530,000); BHTN base max 106,200,000 VND/month (20&times; Region I minimum wage 5,310,000).</td></tr>
+<tr><td>Family deduction</td><td>15,500,000 VND/month (personal) + 6,200,000 VND/month per dependent.</td></tr>
+<tr><td>Taxable income</td><td>Gross + bonus &minus; insurance &minus; family deduction (floored at 0).</td></tr>
+<tr><td>PIT</td><td>Progressive monthly table, 5 brackets: &le;10M 5%, 10&ndash;30M 10%, 30&ndash;60M 20%, 60&ndash;100M 30%, &gt;100M 35%.</td></tr>
+<tr><td>Net salary</td><td>Gross + bonus &minus; insurance &minus; PIT.</td></tr>
+</table>
+
+<h2>Worked example (verified on a live Odoo 17 Community install)</h2>
+<p>Employee B, December 2026: gross 25,000,000 VND, bonus 3,000,000 VND,
+1 dependent &rarr; insurance 2,625,000 VND, taxable income 3,675,000 VND,
+<strong>PIT 183,750 VND, net salary 25,191,250 VND</strong>. The same figures
+appear in the screenshots and workflow video for this version.</p>
+
+<h2>Features</h2>
+<ul>
+<li>One payroll line per employee per month (unique constraint &mdash; no duplicates).</li>
+<li>Draft &rarr; Confirmed &rarr; Done workflow; amounts are stored and searchable.</li>
+<li>List and form views with filters by month and employee; totals in the list footer.</li>
+<li>QWeb report: monthly payroll + PIT table, printable / exportable to PDF.</li>
+<li>Access control: salary figures visible only to HR and Accounting groups.
+Other users cannot see the model at all; Accounting is read-only.</li>
+<li>No Enterprise dependency &mdash; Odoo 17 Community only; depends on the standard
+<code>hr</code> (Employees) and <code>account</code> (Accounting) apps.</li>
+</ul>
+
+<h2>Screenshots</h2>
+<h3>1. Monthly payroll list &mdash; totals in the footer</h3>
+<img src="images/list_screenshot.png" alt="Payroll list">
+<h3>2. Employee payroll form &mdash; enter salary, bonus, dependents; the rest computes itself</h3>
+<img src="images/form_screenshot.png" alt="Payroll form">
+<h3>3. Printable payroll &amp; PIT report (PDF)</h3>
+<img src="images/report_screenshot.png" alt="Payroll report">
+
+<h2>Install</h2>
+<ol><li>Copy the <code>vietnam_pit_helper</code> folder into your Odoo addons path.</li>
+<li>In Odoo: Apps &rarr; Update Apps List &rarr; search &ldquo;Vietnam PIT Helper&rdquo; &rarr; Install. (Requires the Employees and Accounting apps.)</li>
+<li>Menu: <strong>Employees &rarr; Payroll &amp; PIT</strong>.</li></ol>
+
+<h2>Out of scope (v1)</h2>
+<p>Year-end settlement, eTax filing and electronic declaration are <strong>not</strong>
+included in this version.</p>
+
+<div class="note"><strong>Note:</strong> screenshots were taken on a test database, so the
+report header shows the Odoo default company name. The figures and workflow are
+exactly as shown; only the company header changes when installed on your own database.</div>
+
+<h2>Support</h2>
+<p>Support email: leanhpham2611@gmail.com &mdash; bug fixes within the first
+30 days after purchase. Price: &euro;69.00, one-time, per database. License: OPL-1.
+Author: Le Anh Pham.</p>
+</body></html>

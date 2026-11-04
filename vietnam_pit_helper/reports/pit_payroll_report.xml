@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ======================= QWeb report ======================= -->
+    <template id="report_pit_payroll_document">
+        <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            Payroll &amp; PIT — <span t-field="doc.period"/>
+                        </h2>
+                        <p>
+                            <strong>Employee:</strong>
+                            <span t-field="doc.employee_id.name"/>
+                            <br/>
+                            <strong>Reference:</strong>
+                            <span t-field="doc.name"/>
+                            <br/>
+                            <strong>Status:</strong>
+                            <span t-field="doc.state"/>
+                        </p>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th class="text-end">Amount (VND)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Gross salary</td>
+                                    <td class="text-end">
+                                        <span t-field="doc.gross_salary"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Bonus</td>
+                                    <td class="text-end">
+                                        <span t-field="doc.bonus"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total income</strong></td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.total_income"/></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>BHXH (8%)</td>
+                                    <td class="text-end">
+                                        <span t-field="doc.bhxh"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>BHYT (1.5%)</td>
+                                    <td class="text-end">
+                                        <span t-field="doc.bhyt"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>BHTN (1%)</td>
+                                    <td class="text-end">
+                                        <span t-field="doc.bhtn"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total insurance</strong></td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.total_insurance"/></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Family deduction
+                                        (<span t-field="doc.dependents"/> dependent(s))
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="doc.family_deduction"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Taxable income</strong></td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.taxable_income"/></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>PIT (progressive, 2026 law)</strong></td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.pit"/></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Net salary</strong></td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.net_salary"/></strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-muted">
+                            Computed under the Vietnamese PIT law in force
+                            for tax year 2026 (Law 109/2025/QH15):
+                            personal deduction 15,500,000 VND/month,
+                            6,200,000 VND/month per dependent,
+                            progressive monthly table 5% / 10% / 20% /
+                            30% / 35%.
+                        </p>
+                    </div>
+        </t>
+    </template>
+
+    <template id="report_pit_payroll">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="vietnam_pit_helper.report_pit_payroll_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_pit_payroll" model="ir.actions.report">
+        <field name="name">Payroll &amp; PIT Report</field>
+        <field name="model">pit.payroll.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">vietnam_pit_helper.report_pit_payroll</field>
+        <field name="report_file">vietnam_pit_helper.report_pit_payroll</field>
+        <field name="print_report_name">
+            'Payroll-PIT-' + (object.name or 'line').replace(' ', '_').replace('/', '-')
+        </field>
+        <field name="binding_model_id" ref="model_pit_payroll_line"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

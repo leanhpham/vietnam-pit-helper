@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pit_payroll_line_hr_manager,PIT Payroll Line (HR Manager),model_pit_payroll_line,hr.group_hr_manager,1,1,1,1
+access_pit_payroll_line_hr_user,PIT Payroll Line (HR User),model_pit_payroll_line,hr.group_hr_user,1,1,1,0
+access_pit_payroll_line_account_manager,PIT Payroll Line (Accounting Manager),model_pit_payroll_line,account.group_account_manager,1,1,1,0
+access_pit_payroll_line_account_user,PIT Payroll Line (Accounting User),model_pit_payroll_line,account.group_account_user,1,0,0,0
