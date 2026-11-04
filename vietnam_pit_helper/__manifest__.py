@@ -75,7 +75,7 @@ Chưa có trong v1: quyết toán năm, khai báo điện tử, tích hợp eTax
 Hỗ trợ: leanhpham2611@gmail.com — sửa lỗi trong 30 ngày đầu.
 Giá: 19,00 USD (một lần, cho một database).
 """,
-    "author": "LeAnhPham",
+    "author": "L.A.P.",
     "website": "https://www.facebook.com/profile.php?id=61595231866235",
     "license": "OPL-1",
     "images": [
